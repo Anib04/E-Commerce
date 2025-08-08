@@ -8,7 +8,7 @@
         <router-view />
       </v-container>
     </v-main>
-    <v-footer class="d-flex flex-column" color="teal" rounded="lg" height="10px">
+    <v-footer class="d-flex flex-column" color="teal" rounded="lg">
       <div class="d-flex w-100 align-center px-4 py-2">
         <strong>Get connected with us on social networks!</strong>
 
