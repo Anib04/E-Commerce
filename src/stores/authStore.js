@@ -1,39 +1,19 @@
-/* import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import axios from 'axios'
+import { defineStore } from 'pinia'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '@/fireBaseConfig.js' // <-- Importas la instancia de auth
 
-export const useUserStore = defineStore('user', () => {
-  const users = ref([])
-  const loading = ref(false)
-  const error = ref(null)
-
-
-  const fetchAllUsers = async () => {
-    users.value = []
-    error.value = null
-    loading.value = true
-
+export const useAuthStore = defineStore('auth', () => {
+  // ...
+  const signUp = async (email, password) => {
     try {
-      const response = await axios.get('https://fakestoreapi.com/users')
-      users.value = response.data
-    } catch (err) {
-      error.value = 'No se pudieron cargar los usuarios.'
-      console.error(err)
-    } finally {
-      loading.value = false
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      const user = userCredential.user
+      console.log('Usuario registrado:', user)
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      console.error('Error de registro:', errorCode, errorMessage)
     }
-  },
-  const fetchUserById = async (id) => {
-
   }
-  return {
-    users,
-    loading,
-    error,
-
-    fetchAllUsers,
-  }
+  return signUp
 })
-
-useUserStore.fetchAllUsers()
- */

@@ -1,7 +1,12 @@
 <template>
   <v-app>
     <v-app-bar>
-      <v-toolbar-title> Mi E-Commerce </v-toolbar-title>
+      <v-toolbar>
+        <v-toolbar-title> Mi E-Commerce </v-toolbar-title>
+        <v-toolbar-items>
+          <v-btn icon="mdi-account" color="success" size="small" @click="dialog = true"></v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -28,10 +33,14 @@
       </div>
     </v-footer>
   </v-app>
+  <SignModal v-model="dialog" />
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import SignModal from '@/components/SignModal.vue'
 const icons = ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram']
+const dialog = ref(false)
 </script>
 
 <style></style>
