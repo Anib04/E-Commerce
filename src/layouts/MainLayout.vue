@@ -1,12 +1,16 @@
 <template>
   <v-app>
-    <v-app-bar>
-      <v-toolbar>
-        <v-toolbar-title> Mi E-Commerce </v-toolbar-title>
-        <v-toolbar-items>
-          <v-btn icon="mdi-account" color="success" size="small" @click="dialog = true"></v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
+    <v-app-bar :elevation="2">
+      <v-app-bar-title>Am Commerce</v-app-bar-title>
+
+      <template v-slot:append>
+        <v-btn v-if="user" icon="mdi-account"></v-btn>
+        <v-btn v-else icon="mdi-login" @click="router.push('/login')"></v-btn>
+
+        <v-btn icon="mdi-magnify"></v-btn>
+
+        <v-btn v-if="user" icon="mdi-export" @click="authStore.logOut()"></v-btn>
+      </template>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -33,14 +37,20 @@
       </div>
     </v-footer>
   </v-app>
-  <SignModal v-model="dialog" />
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import SignModal from '@/components/SignModal.vue'
+import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/authStore'
+
+const authStore = useAuthStore()
+
+const { user } = storeToRefs(authStore)
+
 const icons = ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram']
-const dialog = ref(false)
+
+const router = useRouter()
 </script>
 
 <style></style>

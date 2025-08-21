@@ -28,11 +28,12 @@
                 style="margin: 0px 5px"
               ></v-text-field>
               <v-btn v-if="!areLogin" class="mt-2" type="submit" block>Crear</v-btn>
-              <v-btn v-else class="mt-2" type="button" block @click="areLogin = !areLogin"
-                >Ingresar</v-btn
-              >
+              <v-btn v-else class="mt-2" type="button" block>Ingresar</v-btn>
             </v-form>
           </v-card>
+          <v-btn class="mt-4 align-center" @click="areLogin = !areLogin">
+            Ya tienes una cuenta?</v-btn
+          >
         </v-sheet>
       </v-col>
 
@@ -61,7 +62,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useAuthStore } from '@/stores/authStore.js' // Revisa la ruta a tu store
+import { useAuthStore } from '@/stores/authStore.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -70,6 +71,8 @@ const authStore = useAuthStore()
 const userEmail = ref('')
 const userPassword = ref('')
 const isLoading = ref(false) // Extra: para deshabilitar el botón mientras se registra
+
+const areLogin = ref(false)
 
 const handleSignUp = async () => {
   if (!userEmail.value || !userPassword.value) {

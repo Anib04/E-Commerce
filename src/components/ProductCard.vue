@@ -9,7 +9,7 @@
     <v-container>
       <v-row>
         <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4">
-          <v-card color="white" class="ma-4">
+          <v-card color="white" class="ma-4" height="400px">
             <v-img :src="product.image" height="200px" cover>
               <v-card-title class="align-end text-white">
                 {{ product.title }}
@@ -24,7 +24,9 @@
             <v-card-actions>
               <v-btn size="x-large">Add to cart</v-btn>
               <router-link :to="{ name: 'products-details', params: { id: product.id } }">
-                <v-btn icon="mdiFormatListBulletedSquare" size="x-large"> Detalles</v-btn>
+                <v-btn prepend-icon="mdi-format-list-bulleted-square" size="x-large">
+                  Detalles</v-btn
+                >
               </router-link>
             </v-card-actions>
           </v-card>
