@@ -28,7 +28,7 @@
                 style="margin: 0px 5px"
               ></v-text-field>
               <v-btn v-if="!areLogin" class="mt-2" type="submit" block>Crear</v-btn>
-              <v-btn v-else class="mt-2" type="button" block>Ingresar</v-btn>
+              <v-btn v-else class="mt-2" type="button" block @click="handleSignIn">Ingresar</v-btn>
             </v-form>
           </v-card>
           <v-btn class="mt-4 align-center" @click="areLogin = !areLogin">
@@ -84,6 +84,30 @@ const handleSignUp = async () => {
   try {
     // ¡Llamamos a la acción de la tienda y listo!
     await authStore.signUp(userEmail.value, userPassword.value)
+
+    // Limpiamos el formulario después de un registro exitoso
+    userEmail.value = ''
+    userPassword.value = ''
+
+    // Aquí podrías redirigir al usuario a otra página
+    router.push('/')
+  } catch (error) {
+    // Si la tienda lanzó un error, aquí lo podemos atrapar para mostrar un mensaje
+    alert(`Error al registrar: ${error.message}`)
+  } finally {
+    isLoading.value = false
+  }
+}
+const handleSignIn = async () => {
+  if (!userEmail.value || !userPassword.value) {
+    alert('Por favor, ingresa email y contraseña.')
+    return
+  }
+
+  isLoading.value = true
+  try {
+    // ¡Llamamos a la acción de la tienda y listo!
+    await authStore.signIn(userEmail.value, userPassword.value)
 
     // Limpiamos el formulario después de un registro exitoso
     userEmail.value = ''

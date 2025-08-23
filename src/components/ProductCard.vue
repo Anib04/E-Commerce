@@ -22,7 +22,7 @@
             </v-card-item>
 
             <v-card-actions>
-              <v-btn size="x-large">Add to cart</v-btn>
+              <v-btn size="x-large" @click="addToCart(product)">Add to cart</v-btn>
               <router-link :to="{ name: 'products-details', params: { id: product.id } }">
                 <v-btn prepend-icon="mdi-format-list-bulleted-square" size="x-large">
                   Detalles</v-btn
@@ -39,10 +39,17 @@
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useProductStore } from '@/stores/ProductStore.js'
+import { useCartStore } from '../stores/cartStore'
 
 const productStore = useProductStore()
+const cartStore = useCartStore()
 
 const { products, loading, error } = storeToRefs(productStore)
+
+const addToCart = (product) => {
+  // Simplemente llama a la nueva acción del store pasándole el producto
+  cartStore.addProductToCart(product)
+}
 
 onMounted(() => {
   productStore.fetchAllProducts()

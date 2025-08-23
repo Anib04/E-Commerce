@@ -1,6 +1,11 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+} from 'firebase/auth'
 import { auth } from '@/fireBaseConfig.js' // Asegúrate de que la ruta sea correcta
 
 export const useAuthStore = defineStore('auth', () => {
@@ -30,6 +35,16 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  const signIn = async (email, password) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      const user = userCredential.user
+      console.log(user)
+    } catch (error) {
+      console.error('❌ Error al iniciar sesion:', error)
+    }
+  }
+
   // LISTENER: Este se encarga de mantener el estado 'user' actualizado automáticamente.
   // Firebase nos avisará cada vez que el estado de autenticación cambie (login, logout).
   onAuthStateChanged(auth, (currentUser) => {
@@ -47,5 +62,6 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     signUp,
     logOut,
+    signIn,
   }
 })
