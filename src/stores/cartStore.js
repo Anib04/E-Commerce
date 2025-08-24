@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import axios from 'axios'
+import { useProductStore } from './ProductStore'
 
 export const useCartStore = defineStore('cart', () => {
   // --- ESTADO ---
@@ -73,10 +74,26 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
+  const detailCart = computed(() => {
+    const ProductStore = useProductStore()
+    if (!cart.value || !cart.value.products) {
+      return []
+    } else {
+      return cart.value.products.map((itemCart) => {
+        const productData = ProductStore.products.find((p) => p.id === itemCart.productId)
+        return {
+          ...productData, // Copia todas las propiedades (id, title, price, image...)
+          quantity: itemCart.quantity, // Añade la cantidad
+        }
+      })
+    }
+  })
+
   return {
     cart,
     loading,
     error,
     addProductToCart,
+    detailCart,
   }
 })
