@@ -33,7 +33,7 @@
           </v-list-item>
         </v-list>
 
-        <v-btn block class="ma-2"> Comprar </v-btn>
+        <v-btn block class="ma-2" @click="router.push('/payment')"> Comprar </v-btn>
       </div>
     </v-navigation-drawer>
     <v-app-bar :elevation="2">

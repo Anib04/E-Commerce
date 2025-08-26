@@ -3,6 +3,7 @@ import MainLayout from '@/layouts/MainLayout.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import ProductsDetails from '@/views/ProductsDetails.vue'
 import LoginView from '@/views/LoginView.vue'
+import PaymentView from '@/views/PaymentView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +25,7 @@ const router = createRouter({
       ],
     },
     { path: '/login', name: 'login', component: LoginView },
+    { path: '/payment', name: 'pay', component: PaymentView },
   ],
 })
 
