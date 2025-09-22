@@ -9,13 +9,23 @@
               <v-avatar rounded="0" size="50">
                 <v-img :src="item.image"></v-img>
               </v-avatar>
-              <v-btn icon="mdi-delete" variant="text" color="grey"></v-btn>
+              <v-btn
+                icon="mdi-delete"
+                variant="text"
+                color="grey"
+                @clic="cartStore.deleteProduct(item.id)"
+              ></v-btn>
+              <v-btn
+                icon="mdi-plus"
+                variant="text"
+                color="grey"
+                @clic="cartStore.addProductToCart(item)"
+              ></v-btn>
             </template>
 
             <v-list-item-title class="font-weight-bold">{{ item.title }}</v-list-item-title>
             <v-list-item-subtitle>
-              Precio: ${{ item.price }} <br />
-              Cantidad: {{ item.quantity }}
+              Precio: ${{ item.price }} Cantidad: {{ item.quantity }}
             </v-list-item-subtitle>
           </v-list-item>
         </v-list>

@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import axios from 'axios'
 import { useProductStore } from './ProductStore'
 
 export const useCartStore = defineStore('cart', () => {
   // --- ESTADO ---
   // Guardará el carrito activo del usuario. Inicia en null.
-  const cart = ref(null)
+  const STORAGE_KEY = 'my-cart'
+  const cart = ref(JSON.parse(localStorage.getItem(STORAGE_KEY)) || [])
   const loading = ref(false)
   const error = ref(null)
 
@@ -65,13 +66,25 @@ export const useCartStore = defineStore('cart', () => {
         cart.value = response.data
       }
 
-      console.log('Carrito actualizado:', cart.value)
+      console.log('Carrito actualizado:')
     } catch (err) {
       error.value = 'No se pudo actualizar el carrito.'
       console.error(err)
     } finally {
       loading.value = false
     }
+  }
+
+  // Acción para eliminar un producto del carrito por su ID
+  const deleteProduct = (id) => {
+    let updatedProducts
+    if (cart.value && cart.value.products) {
+      updatedProducts = cart.value.products
+        .map((item) => (item.productId === id ? { ...item, quantity: item.quantity - 1 } : item))
+        .filter((item) => item.quantity > 0) // Filtrar productos con cantidad mayor a 0
+    }
+    cart.value.products = updatedProducts
+    console.log('Carrito actualizado!!')
   }
 
   const detailCart = computed(() => {
@@ -89,11 +102,25 @@ export const useCartStore = defineStore('cart', () => {
     }
   })
 
+  watch(
+    cart,
+    (newCart) => {
+      localStorage.setItem('my-cart', JSON.stringify(newCart))
+    },
+    { deep: true },
+  )
+
   return {
+    //State
     cart,
     loading,
     error,
+
+    //actions
     addProductToCart,
+    deleteProduct,
+
+    //getter
     detailCart,
   }
 })

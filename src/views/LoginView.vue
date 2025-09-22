@@ -9,7 +9,8 @@
           rounded="xl"
           class="d-flex flex-column justify-space-around align-center pa-8"
         >
-          <v-card color="#2f5aa8" min-height="400" width="85%">
+          2f5aa8
+          <v-card color="#f8962c" min-height="400" width="85%">
             <v-card-title class="text-h5 font-weight-bold text-center">
               {{ !areLogin ? 'Crea tu cuenta' : 'Ingresa tu cuenta' }}
             </v-card-title>
@@ -27,8 +28,12 @@
                 label="Password"
                 style="margin: 0px 5px"
               ></v-text-field>
-              <v-btn v-if="!areLogin" class="mt-2" type="submit" block>Crear</v-btn>
-              <v-btn v-else class="mt-2" type="button" block @click="handleSignIn">Ingresar</v-btn>
+              <div class="d-flex justify-center mt-2">
+                <v-btn v-if="!areLogin" width="50%" class="align-center" type="submit">Crear</v-btn>
+                <v-btn v-else width="50%" class="align-center" type="button" @click="handleSignIn"
+                  >Ingresar</v-btn
+                >
+              </div>
             </v-form>
           </v-card>
           <v-btn class="mt-4 align-center" @click="areLogin = !areLogin">
@@ -58,6 +63,9 @@
       </v-col>
     </v-row>
   </v-container>
+  <v-snackbar :timeout="4000" color="red-darken-1" rounded="pill" v-model="snackBarOpen">
+    {{ errorMessage }}
+  </v-snackbar>
 </template>
 
 <script setup>
@@ -68,6 +76,8 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const authStore = useAuthStore()
 
+const snackBarOpen = ref(false)
+const errorMessage = ref('')
 const userEmail = ref('')
 const userPassword = ref('')
 const isLoading = ref(false) // Extra: para deshabilitar el botón mientras se registra
@@ -76,7 +86,8 @@ const areLogin = ref(false)
 
 const handleSignUp = async () => {
   if (!userEmail.value || !userPassword.value) {
-    alert('Por favor, ingresa email y contraseña.')
+    errorMessage.value = 'Por favor, ingresa email y contraseña.'
+    snackBarOpen.value = true
     return
   }
 
@@ -93,14 +104,16 @@ const handleSignUp = async () => {
     router.push('/')
   } catch (error) {
     // Si la tienda lanzó un error, aquí lo podemos atrapar para mostrar un mensaje
-    alert(`Error al registrar: ${error.message}`)
+    errorMessage.value = `Error al registrar: ${error.message}`
+    snackBarOpen.value = true
   } finally {
     isLoading.value = false
   }
 }
 const handleSignIn = async () => {
   if (!userEmail.value || !userPassword.value) {
-    alert('Por favor, ingresa email y contraseña.')
+    errorMessage.value = 'Por favor, ingresa email y contraseña.'
+    snackBarOpen.value = true
     return
   }
 
@@ -117,7 +130,8 @@ const handleSignIn = async () => {
     router.push('/')
   } catch (error) {
     // Si la tienda lanzó un error, aquí lo podemos atrapar para mostrar un mensaje
-    alert(`Error al registrar: ${error.message}`)
+    errorMessage.value = `Error al loguear: ${error.message}`
+    snackBarOpen.value = true
   } finally {
     isLoading.value = false
   }
@@ -130,5 +144,6 @@ h3,
 h4,
 p {
   text-align: center;
+  color: #f8962c;
 }
 </style>
