@@ -9,7 +9,7 @@
       @mouseover="showList = true"
       @mouseleave="showList = false"
     >
-      <v-list>
+      <v-list v-if="user">
         <v-list-item prepend-icon="mdi-cart" title="Tu Carrito"></v-list-item>
       </v-list>
 
@@ -41,7 +41,7 @@
         <v-btn block class="ma-2" @click="router.push('/payment')"> Comprar </v-btn>
       </div>
     </v-navigation-drawer>
-    <v-app-bar :elevation="2">
+    <v-app-bar :elevation="2" color="#104475">
       <v-app-bar-title>Am Commerce</v-app-bar-title>
 
       <template v-slot:append>
