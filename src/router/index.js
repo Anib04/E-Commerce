@@ -22,10 +22,10 @@ const router = createRouter({
           name: 'products-details',
           component: ProductsDetails,
         },
+        { path: '/payment', name: 'pay', component: PaymentView },
       ],
     },
     { path: '/login', name: 'login', component: LoginView },
-    { path: '/payment', name: 'pay', component: PaymentView },
   ],
 })
 
