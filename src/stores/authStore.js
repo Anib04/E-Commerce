@@ -6,10 +6,9 @@ import {
   signOut,
   signInWithEmailAndPassword,
 } from 'firebase/auth'
-import { auth } from '@/fireBaseConfig.js' // Asegúrate de que la ruta sea correcta
+import { auth } from '@/fireBaseConfig.js'
 
 export const useAuthStore = defineStore('auth', () => {
-  // STATE: Aquí guardamos la información del usuario logueado.
   const user = ref(null)
   const msg = ref(null)
 
@@ -21,8 +20,6 @@ export const useAuthStore = defineStore('auth', () => {
       msg.value = `"✅ Usuario registrado exitosamente:"${user.value.email}`
     } catch (error) {
       console.error('❌ Error de registro:', error.message)
-      // Re-lanzamos el error para poder manejarlo en el componente si es necesario (ej. mostrar un mensaje al usuario)
-      throw error
     }
   }
 
@@ -59,7 +56,10 @@ export const useAuthStore = defineStore('auth', () => {
   })
 
   return {
+    //State
     user,
+
+    //Actions
     signUp,
     logOut,
     signIn,

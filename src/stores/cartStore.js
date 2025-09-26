@@ -1,5 +1,5 @@
-import { defineStore, storeToRefs } from 'pinia'
 import { ref, computed, watch } from 'vue'
+import { defineStore, storeToRefs } from 'pinia'
 import axios from 'axios'
 import { useProductStore } from './ProductStore'
 
@@ -20,14 +20,16 @@ export const useCartStore = defineStore(
 
     //Este es el user logueado para hacer que el flujo sea mas real, sin embargo la FakeStoreAPI necesita un number como user y Firebase regresa como UUID un string
     const { user } = storeToRefs(authStore)
-
-    // --- ACCIÓN PRINCIPAL ---
-    // Esta es la única acción que tu componente necesitará llamar.
+    // --- ACCIONES ---
+    // Acción para agregar un producto al carrito.
+    // Si el usuario no tiene un carrito, se crea uno nuevo.
+    // Si ya tiene un carrito, se actualiza el existente.
     const addProductToCart = async (product, userId = 1) => {
       snackBarOpen.value = false
       msg.value = null
       if (!product || !product.id) {
         error.value = 'Producto inválido.'
+        msg.value = 'No se pudo agregar el producto al carrito. Producto inválido.'
         snackBarOpen.value = true
         return
       }
@@ -91,7 +93,6 @@ export const useCartStore = defineStore(
         }
         snackBarOpen.value = true
         msg.value = 'Producto añadido al carrito!'
-        console.log('Carrito actualizado:')
       } catch (err) {
         error.value = 'No se pudo actualizar el carrito.'
         snackBarOpen.value = true
@@ -113,9 +114,11 @@ export const useCartStore = defineStore(
       cart.value.products = updatedProducts
       snackBarOpen.value = true
       msg.value = 'Producto eliminado del carrito'
-      console.log('Carrito actualizado!!')
     }
-
+    // --- GETTERS ---
+    // Este getter devuelve los detalles completos de los productos en el carrito,
+    // combinando la información del carrito con los datos de los productos desde ProductStore.
+    // Así tenemos acceso a título, precio, imagen, etc., además de la cantidad.
     const detailCart = computed(() => {
       const ProductStore = useProductStore()
       if (!cart.value || !cart.value.products) {
@@ -147,11 +150,11 @@ export const useCartStore = defineStore(
       msg,
       snackBarOpen,
 
-      //actions
+      //Actions
       addProductToCart,
       deleteProduct,
 
-      //getter
+      //Getter
       detailCart,
     }
   },

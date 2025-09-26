@@ -1,8 +1,7 @@
-import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { defineStore } from 'pinia'
 import axios from 'axios'
 
-// Define un store específico para los productos
 export const useProductStore = defineStore(
   'products',
   () => {
@@ -52,13 +51,13 @@ export const useProductStore = defineStore(
     }
 
     return {
-      // Estado
+      // State
       products,
       product,
       loading,
       error,
 
-      // Acciones
+      // Actions
       fetchAllProducts,
       fetchProductById,
     }

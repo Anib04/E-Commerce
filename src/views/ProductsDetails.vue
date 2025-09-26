@@ -38,8 +38,8 @@
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useProductStore } from '../stores/ProductStore.js'
-import { useCartStore } from '../stores/cartStore.js'
+import { useProductStore } from '@/stores/ProductStore.js'
+import { useCartStore } from '@/stores/cartStore.js'
 
 const productStore = useProductStore()
 const cartStore = useCartStore()
@@ -51,7 +51,6 @@ const { msg, snackBarOpen } = storeToRefs(cartStore)
 onMounted(() => {
   // 6. Obtenemos el 'id' de la URL y llamamos a la acción del store
   const productId = route.params.id
-  // (Necesitarías crear esta acción en tu store)
   productStore.fetchProductById(productId)
 })
 </script>
