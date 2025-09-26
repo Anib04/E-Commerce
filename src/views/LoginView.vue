@@ -13,7 +13,7 @@
             <v-card-title class="text-h5 font-weight-bold text-center">
               {{ !areLogin ? 'Crea tu cuenta' : 'Ingresa tu cuenta' }}
             </v-card-title>
-            <p class="text-subtitle-1 mb-4 text-blue-grey-darken-4">
+            <p class="text-subtitle-1 mb-4 text-blue-grey-darken-4 text-center">
               {{ !areLogin ? 'Empieza a comprar' : 'Continua comprando' }}
             </p>
             <v-form @submit.prevent @submit="handleSignUp">

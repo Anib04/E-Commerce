@@ -67,6 +67,9 @@ const redirectToCheckout = () => {
   // La pagina de pago solamente contiene un product de prueba, ya que la idea era iniciar en el conocimiento de una pasarela de pago y no crear un sistema de pagos completo
 
   setTimeout(() => {
+    msg.value = null
+    snackBarOpen.value = false
+    loading.value = false
     window.location.href = paymentLinkUrl
   }, 2000)
 }

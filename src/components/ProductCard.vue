@@ -59,7 +59,7 @@
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useProductStore } from '@/stores/ProductStore.js'
-import { useCartStore } from '../stores/cartStore'
+import { useCartStore } from '@/stores/cartStore'
 
 const productStore = useProductStore()
 const cartStore = useCartStore()

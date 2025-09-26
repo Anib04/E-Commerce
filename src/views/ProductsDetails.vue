@@ -45,8 +45,8 @@ const productStore = useProductStore()
 const cartStore = useCartStore()
 const route = useRoute()
 
-const { product, loading, error } = storeToRefs(productStore)
-const { msg, snackBarOpen } = storeToRefs(cartStore)
+const { product, loading } = storeToRefs(productStore)
+const { msg, snackBarOpen, error } = storeToRefs(cartStore)
 
 onMounted(() => {
   // 6. Obtenemos el 'id' de la URL y llamamos a la acción del store

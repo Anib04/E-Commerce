@@ -86,8 +86,8 @@
 import { ref, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useCartStore } from '../stores/cartStore'
-import { useAuthStore } from '../stores/authStore'
+import { useCartStore } from '@/stores/cartStore'
+import { useAuthStore } from '@/stores/authStore'
 
 const authStore = useAuthStore()
 const cartStore = useCartStore()

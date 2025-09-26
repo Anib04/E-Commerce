@@ -1,7 +1,7 @@
 import { ref, computed, watch } from 'vue'
 import { defineStore, storeToRefs } from 'pinia'
 import axios from 'axios'
-import { useProductStore } from './ProductStore'
+import { useProductStore } from '@/stores/ProductStore.js'
 
 import { useAuthStore } from '@/stores/authStore.js'
 
