@@ -9,7 +9,7 @@
           rounded="xl"
           class="d-flex flex-column justify-space-around align-center pa-8"
         >
-          <v-card color="#fff" min-height="400" width="85%">
+          <v-card color="#fcecf6 " min-height="400" width="85%">
             <v-card-title class="text-h5 font-weight-bold text-center">
               {{ !areLogin ? 'Crea tu cuenta' : 'Ingresa tu cuenta' }}
             </v-card-title>
@@ -48,7 +48,7 @@
               </div>
             </v-form>
           </v-card>
-          <v-btn class="mt-4 align-center" @click="areLogin = !areLogin">
+          <v-btn class="mt-4 align-center" @click="areLogin = !areLogin" color="#f8962c">
             Ya tienes una cuenta?</v-btn
           >
         </v-sheet>
@@ -56,13 +56,13 @@
 
       <v-col cols="12" md="5">
         <v-sheet
-          color="purple-lighten-5"
+          color="#104475"
           height="100%"
           min-height="400"
           rounded="xl"
           class="d-flex flex-column justify-space-around align-center pa-8"
         >
-          <h4 class="text-overline font-weight-bold text-purple-darken-2" style="font-size: 1.2em">
+          <h4 class="text-overline font-weight-bold text-white" style="font-size: 1.2em">
             E-COMMERCE
           </h4>
           <v-img

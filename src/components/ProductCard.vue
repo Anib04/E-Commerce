@@ -1,15 +1,15 @@
 <template>
-  <v-sheet v-if="loading">Cargando productos...</v-sheet>
-
-  <v-sheet v-else-if="error" style="color: red">
-    {{ error }}
-  </v-sheet>
+  <v-skeleton-loader v-if="loading" :elevation="24" boilerplate type="article"></v-skeleton-loader>
 
   <v-sheet v-else>
     <v-container fluid class="pa-0 products-container">
       <v-row>
         <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4">
-          <v-card class="ma-4 product-card border-sm" height="400px">
+          <v-card
+            class="ma-4 product-card border-sm"
+            height="400px"
+            transition="scroll-x-transition"
+          >
             <v-img :src="product.image" height="200px" cover> </v-img>
 
             <v-card-item>
@@ -46,6 +46,14 @@
       </v-row>
     </v-container>
   </v-sheet>
+  <v-snackbar
+    :timeout="4000"
+    :color="error ? 'error' : 'success'"
+    rounded="pill"
+    v-model="snackBarOpen"
+  >
+    {{ msg }}
+  </v-snackbar>
 </template>
 <script setup>
 import { onMounted } from 'vue'
@@ -56,7 +64,8 @@ import { useCartStore } from '../stores/cartStore'
 const productStore = useProductStore()
 const cartStore = useCartStore()
 
-const { products, loading, error } = storeToRefs(productStore)
+const { error, msg, snackBarOpen } = storeToRefs(cartStore)
+const { products, loading } = storeToRefs(productStore)
 
 const addToCart = (product) => {
   cartStore.addProductToCart(product)

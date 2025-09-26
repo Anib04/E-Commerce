@@ -1,7 +1,9 @@
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import { ref, computed, watch } from 'vue'
 import axios from 'axios'
 import { useProductStore } from './ProductStore'
+
+import { useAuthStore } from '@/stores/authStore.js'
 
 export const useCartStore = defineStore('cart', () => {
   // --- ESTADO ---
@@ -10,16 +12,36 @@ export const useCartStore = defineStore('cart', () => {
   const cart = ref(JSON.parse(localStorage.getItem(STORAGE_KEY)) || [])
   const loading = ref(false)
   const error = ref(null)
+  const msg = ref(null)
+  const snackBarOpen = ref(false)
+  const authStore = useAuthStore()
+
+  //Este es el user logueado para hacer que el flujo sea mas real, sin embargo la FakeStoreAPI necesita un number como user y Firebase regresa como UUID un string
+  const { user } = storeToRefs(authStore)
 
   // --- ACCIÓN PRINCIPAL ---
   // Esta es la única acción que tu componente necesitará llamar.
   const addProductToCart = async (product, userId = 1) => {
+    snackBarOpen.value = false
+    msg.value = null
+    if (!product || !product.id) {
+      error.value = 'Producto inválido.'
+      snackBarOpen.value = true
+      return
+    }
     error.value = null
     loading.value = true
 
     try {
+      if (!user.value) {
+        error.value = 'Usuario no autenticado.'
+        msg.value = 'Por favor inicia sesión para agregar productos al carrito.'
+        snackBarOpen.value = true
+        loading.value = false
+        return
+      }
       // CASO 1: El usuario ya tiene un carrito. Debemos ACTUALIZARLO.
-      if (cart.value && cart.value.id) {
+      if (cart.value && cart.value.id && user) {
         const existingProduct = cart.value.products.find((p) => p.productId === product.id)
 
         let updatedProducts
@@ -65,10 +87,13 @@ export const useCartStore = defineStore('cart', () => {
         // Guardamos el carrito recién creado en nuestro estado local
         cart.value = response.data
       }
-
+      snackBarOpen.value = true
+      msg.value = 'Producto añadido al carrito!'
       console.log('Carrito actualizado:')
     } catch (err) {
       error.value = 'No se pudo actualizar el carrito.'
+      snackBarOpen.value = true
+      msg.value = 'Error al agregar el producto al carrito.'
       console.error(err)
     } finally {
       loading.value = false
@@ -84,6 +109,8 @@ export const useCartStore = defineStore('cart', () => {
         .filter((item) => item.quantity > 0) // Filtrar productos con cantidad mayor a 0
     }
     cart.value.products = updatedProducts
+    snackBarOpen.value = true
+    msg.value = 'Producto eliminado del carrito'
     console.log('Carrito actualizado!!')
   }
 
@@ -115,6 +142,8 @@ export const useCartStore = defineStore('cart', () => {
     cart,
     loading,
     error,
+    msg,
+    snackBarOpen,
 
     //actions
     addProductToCart,

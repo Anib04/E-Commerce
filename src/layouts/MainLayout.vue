@@ -58,9 +58,20 @@
       <v-app-bar-title> <v-btn @click="router.push('/')">Am Commerce</v-btn></v-app-bar-title>
 
       <template v-slot:append>
-        <v-btn v-if="!user" icon="mdi-account" @click="router.push('/login')"></v-btn>
-        <v-btn icon="mdi-magnify"></v-btn>
-        <v-btn v-if="user" icon="mdi-export" @click="authStore.logOut()"></v-btn>
+        <v-btn
+          v-if="!user"
+          icon="mdi-account"
+          @click="router.push('/login')"
+          class="layout-icon"
+          ref="accountBtn"
+        ></v-btn>
+        <v-btn icon="mdi-magnify" class="layout-icon"></v-btn>
+        <v-btn
+          v-if="user"
+          icon="mdi-export"
+          @click="authStore.logOut()"
+          class="layout-icon"
+        ></v-btn>
       </template>
     </v-app-bar>
     <v-main class="products-container">
@@ -95,16 +106,30 @@ import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useCartStore } from '../stores/cartStore'
 import { useAuthStore } from '../stores/authStore'
-import { ref } from 'vue'
-
+import { ref, watch, nextTick } from 'vue'
 const authStore = useAuthStore()
 const cartStore = useCartStore()
 
-const { user } = storeToRefs(authStore)
-const { detailCart } = storeToRefs(cartStore)
-
+const accountBtn = ref(null)
 const showList = ref(false)
 const router = useRouter()
+const { user } = storeToRefs(authStore)
+const { detailCart, error } = storeToRefs(cartStore)
+
+watch(
+  error,
+  async (newErrorValue) => {
+    if (newErrorValue) {
+      await nextTick()
+      focusAccountButton()
+    }
+  },
+  { deep: true },
+)
+
+const focusAccountButton = () => {
+  accountBtn.value.$el.focus()
+}
 </script>
 
 <style>
@@ -114,5 +139,16 @@ const router = useRouter()
 
 .cart-list {
   background-color: #fcecf6 !important;
+}
+
+.layout-icon:hover {
+  background-color: #f8962c !important;
+  border-radius: 3px;
+  box-shadow: 0px 0px 12px #fcecf6;
+}
+.layout-icon:focus {
+  background-color: #f8962c !important;
+  border-radius: 3px;
+  box-shadow: 0px 0px 12px #fcecf6;
 }
 </style>
