@@ -13,13 +13,13 @@
                 icon="mdi-delete"
                 variant="text"
                 color="grey"
-                @clic="cartStore.deleteProduct(item.id)"
+                @click="cartStore.deleteProduct(item.id)"
               ></v-btn>
               <v-btn
                 icon="mdi-plus"
                 variant="text"
                 color="grey"
-                @clic="cartStore.addProductToCart(item)"
+                @click="cartStore.addProductToCart(item)"
               ></v-btn>
             </template>
 
@@ -34,27 +34,41 @@
       </v-col>
     </v-row>
   </v-container>
+  <v-snackbar
+    :timeout="4000"
+    :color="error ? 'error' : 'success'"
+    rounded="pill"
+    v-model="snackBarOpen"
+  >
+    {{ msg }}
+  </v-snackbar>
 </template>
 <script setup>
 import { ref } from 'vue'
-
 import { storeToRefs } from 'pinia'
-import { useCartStore } from '../stores/cartStore'
+import { useCartStore } from '@/stores/cartStore'
+
+const cartStore = useCartStore()
+const { detailCart, loading, error, msg, snackBarOpen } = storeToRefs(cartStore)
 
 const total = ref(0)
-const cartStore = useCartStore()
-const { detailCart, loading } = storeToRefs(cartStore)
+
+const paymentLinkUrl = 'https://buy.stripe.com/test_7sY8wP2Wp4nR2271qr3Ru00'
 
 for (const product of detailCart.value) {
   total.value += product.price * product.quantity
 }
 
-const paymentLinkUrl = 'https://buy.stripe.com/test_7sY8wP2Wp4nR2271qr3Ru00'
-
 const redirectToCheckout = () => {
   loading.value = true
+  msg.value = 'Redirigiendo a la pasarela de pago...'
+  snackBarOpen.value = true
   // Esta simple línea redirige al usuario a la página de pago de Stripe
-  window.location.href = paymentLinkUrl
+  // La pagina de pago solamente contiene un product de prueba, ya que la idea era iniciar en el conocimiento de una pasarela de pago y no crear un sistema de pagos completo
+
+  setTimeout(() => {
+    window.location.href = paymentLinkUrl
+  }, 2000)
 }
 </script>
 
