@@ -11,13 +11,14 @@ import { auth } from '@/fireBaseConfig.js' // Asegúrate de que la ruta sea corr
 export const useAuthStore = defineStore('auth', () => {
   // STATE: Aquí guardamos la información del usuario logueado.
   const user = ref(null)
+  const msg = ref(null)
 
   // ACTION: Función para registrar un nuevo usuario.
   const signUp = async (email, password) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       user.value = userCredential.user
-      console.log('✅ Usuario registrado exitosamente:', user.value.email)
+      msg.value = `"✅ Usuario registrado exitosamente:"${user.value.email}`
     } catch (error) {
       console.error('❌ Error de registro:', error.message)
       // Re-lanzamos el error para poder manejarlo en el componente si es necesario (ej. mostrar un mensaje al usuario)
@@ -42,6 +43,7 @@ export const useAuthStore = defineStore('auth', () => {
       console.log(user)
     } catch (error) {
       console.error('❌ Error al iniciar sesion:', error)
+      throw error
     }
   }
 
@@ -50,14 +52,12 @@ export const useAuthStore = defineStore('auth', () => {
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
       user.value = currentUser
-      console.log('Usuario autenticado:', currentUser.email)
+      msg.value = `"✅ Usuario autenticado:",${currentUser.email}`
     } else {
       user.value = null
-      console.log('No hay usuario autenticado.')
     }
   })
 
-  // Exponemos solo lo que los componentes necesitan usar.
   return {
     user,
     signUp,

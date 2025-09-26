@@ -49,8 +49,8 @@
             </v-form>
           </v-card>
           <v-btn class="mt-4 align-center" @click="areLogin = !areLogin" color="#f8962c">
-            Ya tienes una cuenta?</v-btn
-          >
+            {{ !areLogin ? 'Ya tienes cuenta? Ingresa' : 'No tienes cuenta? Crea una' }}
+          </v-btn>
         </v-sheet>
       </v-col>
 
@@ -82,17 +82,16 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useAuthStore } from '@/stores/authStore.js'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore.js'
 
 const router = useRouter()
 const authStore = useAuthStore()
-
 const snackBarOpen = ref(false)
 const errorMessage = ref('')
 const userEmail = ref('')
 const userPassword = ref('')
-const isLoading = ref(false) // Extra: para deshabilitar el botón mientras se registra
+const isLoading = ref(false)
 
 const areLogin = ref(false)
 
@@ -150,12 +149,4 @@ const handleSignIn = async () => {
 }
 </script>
 
-<style scoped>
-/* Opcional: Estilos personalizados si los necesitas */
-h3,
-h4,
-p {
-  text-align: center;
-  color: #f8962c;
-}
-</style>
+<style scoped></style>

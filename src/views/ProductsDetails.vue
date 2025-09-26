@@ -1,18 +1,10 @@
 <template>
-  <template v-if="error">
-    <p>
-      {{ error }}
-    </p>
-  </template>
-  <v-card class="mx-auto product-card" max-width="500" :disabled="loading" :loading="loading">
-    <template v-slot:loader="{ isActive }">
-      <v-progress-linear :active="isActive" color="deep-purple" height="4" indeterminate>
-      </v-progress-linear>
-    </template>
-
-    <v-img class="text-center text-white" height="200" :src="product.image">
-      <v-card-title>{{ product.title }}</v-card-title>
-    </v-img>
+  <v-skeleton-loader v-if="loading" :elevation="24" boilerplate type="card"></v-skeleton-loader>
+  <v-card v-else class="mx-auto product-card" max-width="500">
+    <v-card-title class="text-center text-blue-grey-darken-3"
+      >{{ product.title }}
+      <v-img class="" height="200" :src="product.image"> </v-img>
+    </v-card-title>
 
     <v-card-subtitle class="pt-4"> ${{ product.price }} </v-card-subtitle>
 
@@ -32,6 +24,14 @@
       </v-btn>
     </v-card-actions>
   </v-card>
+  <v-snackbar
+    :timeout="4000"
+    :color="error ? 'error' : 'success'"
+    rounded="pill"
+    v-model="snackBarOpen"
+  >
+    {{ msg }}
+  </v-snackbar>
 </template>
 
 <script setup>
@@ -43,11 +43,10 @@ import { useCartStore } from '../stores/cartStore.js'
 
 const productStore = useProductStore()
 const cartStore = useCartStore()
-// Extraemos las propiedades reactivas que vamos a usar
-const { product, loading, error } = storeToRefs(productStore)
-
-// 5. Instanciamos useRoute para acceder a los parámetros de la ruta
 const route = useRoute()
+
+const { product, loading, error } = storeToRefs(productStore)
+const { msg, snackBarOpen } = storeToRefs(cartStore)
 
 onMounted(() => {
   // 6. Obtenemos el 'id' de la URL y llamamos a la acción del store
