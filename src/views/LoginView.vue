@@ -66,7 +66,7 @@
             E-COMMERCE
           </h4>
           <v-img
-            src="../../public/images/marcus-loke-xXJ6utyoSw0-unsplash.jpg"
+            src="../assets/marcus-loke-xXJ6utyoSw0-unsplash.jpg"
             class="my-4"
             width="80%"
             max-width="450px"
