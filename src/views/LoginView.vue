@@ -91,6 +91,7 @@ const isLoading = ref(false)
 const areLogin = ref(false)
 
 const handleSignUp = async () => {
+  errorMessage.value = null
   if (!userEmail.value || !userPassword.value) {
     errorMessage.value = 'Por favor, ingresa email y contraseña.'
     snackBarOpen.value = true
@@ -117,6 +118,7 @@ const handleSignUp = async () => {
   }
 }
 const handleSignIn = async () => {
+  errorMessage.value = null
   if (!userEmail.value || !userPassword.value) {
     errorMessage.value = 'Por favor, ingresa email y contraseña.'
     snackBarOpen.value = true

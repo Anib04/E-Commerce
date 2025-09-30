@@ -14,6 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // ACTION: Función para registrar un nuevo usuario.
   const signUp = async (email, password) => {
+    msg.value = null
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       user.value = userCredential.user
@@ -34,6 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const signIn = async (email, password) => {
+    msg.value = null
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       const user = userCredential.user
