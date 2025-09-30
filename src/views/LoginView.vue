@@ -65,12 +65,7 @@
           <h4 class="text-overline font-weight-bold text-white" style="font-size: 1.2em">
             E-COMMERCE
           </h4>
-          <v-img
-            src="../assets/marcus-loke-xXJ6utyoSw0-unsplash.jpg"
-            class="my-4"
-            width="80%"
-            max-width="450px"
-          ></v-img>
+          <v-img :src="imageLogin" class="my-4" width="80%" max-width="450px"></v-img>
         </v-sheet>
       </v-col>
     </v-row>
@@ -84,6 +79,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore.js'
+import imageLogin from '@/assets/loginImage.jpg'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -92,7 +88,6 @@ const errorMessage = ref('')
 const userEmail = ref('')
 const userPassword = ref('')
 const isLoading = ref(false)
-
 const areLogin = ref(false)
 
 const handleSignUp = async () => {
